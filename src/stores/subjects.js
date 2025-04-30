@@ -25,7 +25,6 @@ export const useSubjectsStore = defineStore('subjects', {
 				this.error = null
 				const response = await $api.post('/subjects/new', data)
 				this.subjects.subjects = [...this.subjects.subjects, response.data]
-				debugger
 				return { success: true }
 				
 			} catch (error) {

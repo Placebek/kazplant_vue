@@ -81,5 +81,28 @@ export const usePlantsStore = defineStore('plants', {
 				this.loading = false
 			}
 		},
+		
+		async getAllPlants() {
+			try {
+				this.loading = true
+				this.error = null
+				this.stage = 'fetching'
+
+				const response = await axios.get('/v1/plants/plants', {
+					baseURL: 'https://192.168.253.31:8000',
+					headers: {
+						Authorization: this.token ? `Bearer ${this.token}` : '',
+					},
+				})
+
+				this.plants = response.data
+				this.stage = 'done'
+				return { success: true, data: response.data }
+			} catch (error) {
+				return this.handleError(error)
+			} finally {
+				this.loading = false
+			}
+		},
 	},
 })

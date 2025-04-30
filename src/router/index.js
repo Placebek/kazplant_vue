@@ -20,7 +20,7 @@ const routes = [
 	{ path: '/:pathMatch(.*)*', component: NotFound },
 	{ path: '/search', component: SearchPage },
 	{ path: '/scan', component: ScanPage },
-	{ path: '/list', component: ListPage },
+	{ path: '/plant', component: ListPage },
 	{ path: '/my-plants', component: MyPlantsPage },
 	{ path: '/plant/:id', component: PlantDetailsPage },
 ]

@@ -63,7 +63,7 @@
 
 		<!-- Fourth element (List) -->
 		<router-link
-			to="/list"
+			to="/plant"
 			class="ml-3 transition-transform duration-300 ease-in-out"
 			:class="{ 'scale-125': active === 3 }"
 		>
