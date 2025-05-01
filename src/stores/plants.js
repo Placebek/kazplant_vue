@@ -177,7 +177,7 @@ export const usePlantsStore = defineStore('plants', {
 				this.error = null
 				const authStore = useAuthStore()
 				const response = await axios.get('/v1/plants/plants', {
-					baseURL: 'https://192.168.253.31:8000',
+					baseURL: 'https://pystorm.space',
 					headers: {
 						Authorization: authStore.token ? `Bearer ${authStore.token}` : '',
 					},
@@ -198,7 +198,7 @@ export const usePlantsStore = defineStore('plants', {
 				this.error = null
 				const authStore = useAuthStore()
 				const response = await axios.get('/v1/leafs/all-leafs', {
-					baseURL: 'https://192.168.253.31:8000',
+					baseURL: 'https://pystorm.space',
 					headers: {
 						Authorization: authStore.token ? `Bearer ${authStore.token}` : '',
 					},
@@ -219,7 +219,7 @@ export const usePlantsStore = defineStore('plants', {
 				this.error = null
 				const authStore = useAuthStore()
 				const response = await axios.get('/v1/users/get-user', {
-					baseURL: 'https://192.168.253.31:8000',
+					baseURL: 'https://pystorm.space',
 					headers: {
 						Authorization: authStore.token ? `Bearer ${authStore.token}` : '',
 					},
