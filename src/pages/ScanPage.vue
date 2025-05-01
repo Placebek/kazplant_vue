@@ -56,8 +56,8 @@
       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="430"
-          height="430"
+          width="380"
+          height="380"
           viewBox="0 0 512 512"
         >
           <path

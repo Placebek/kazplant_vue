@@ -37,7 +37,7 @@
             >
               <img
                 v-if="plant.photos && plant.photos[0]"
-                :src="plant.photos[0].photo"
+                :src="'https://pystorm.space/' + plant.photos[0].photo"
                 :alt="plant.name"
                 class="w-full h-32 object-cover rounded-md mb-2"
               />
