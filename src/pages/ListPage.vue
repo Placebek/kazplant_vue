@@ -42,7 +42,7 @@
           <!-- Фото растения (если есть) -->
           <div v-if="plant.photos && plant.photos.length" class="w-20 h-20 flex-shrink-0">
             <img
-              :src="'https://192.168.253.31:8000/' + plant.photos[0].photo"
+              :src="'https://pystorm.space//' + plant.photos[0].photo"
               alt="Фото растения"
               class="w-full h-full object-cover rounded-md"
               loading="lazy"

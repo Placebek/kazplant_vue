@@ -46,7 +46,7 @@
         >
           <div
             class="absolute inset-0 bg-cover bg-center blur-lg opacity-50"
-            :style="{ backgroundImage: `url(https://192.168.253.31:8000/${plant.photos[currentPhotoIndex].photo})` }"
+            :style="{ backgroundImage: `url(https://pystorm.space//${plant.photos[currentPhotoIndex].photo})` }"
           ></div>
 
           <!-- Лента изображений -->
@@ -60,7 +60,7 @@
               class="slider-item min-w-full flex-shrink-0"
             >
               <img
-                :src="'https://192.168.253.31:8000/' + photo.photo"
+                :src="'https://pystorm.space//' + photo.photo"
                 alt="Фото растения"
                 class="w-full h-[28vh] object-contain"
                 loading="lazy"
