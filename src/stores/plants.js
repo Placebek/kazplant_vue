@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
+import { useAuthStore } from '@/stores/auth.js'
 
 export const usePlantsStore = defineStore('plants', {
 	state: () => ({
@@ -11,6 +12,9 @@ export const usePlantsStore = defineStore('plants', {
 		plants: [],
 		leafResult: null,
 		chatMessages: [],
+		userPlants: [],
+		userLeafs: [],
+		userProfile: null,
 	}),
 
 	actions: {
@@ -159,6 +163,69 @@ export const usePlantsStore = defineStore('plants', {
 				this.stage = 'done'
 				this.chatMessages.push({ type: 'user', text: question })
 				this.chatMessages.push({ type: 'ai', text: response.data.answer })
+				return { success: true, data: response.data }
+			} catch (error) {
+				return this.handleError(error)
+			} finally {
+				this.loading = false
+			}
+		},
+
+		async getUserPlants() {
+			try {
+				this.loading = true
+				this.error = null
+				const authStore = useAuthStore()
+				const response = await axios.get('/v1/plants/plants', {
+					baseURL: 'https://192.168.253.31:8000',
+					headers: {
+						Authorization: authStore.token ? `Bearer ${authStore.token}` : '',
+					},
+				})
+
+				this.userPlants = response.data
+				return { success: true, data: response.data }
+			} catch (error) {
+				return this.handleError(error)
+			} finally {
+				this.loading = false
+			}
+		},
+
+		async getUserLeafs() {
+			try {
+				this.loading = true
+				this.error = null
+				const authStore = useAuthStore()
+				const response = await axios.get('/v1/leafs/all-leafs', {
+					baseURL: 'https://192.168.253.31:8000',
+					headers: {
+						Authorization: authStore.token ? `Bearer ${authStore.token}` : '',
+					},
+				})
+
+				this.userLeafs = response.data
+				return { success: true, data: response.data }
+			} catch (error) {
+				return this.handleError(error)
+			} finally {
+				this.loading = false
+			}
+		},
+
+		async getUserProfile() {
+			try {
+				this.loading = true
+				this.error = null
+				const authStore = useAuthStore()
+				const response = await axios.get('/v1/users/get-user', {
+					baseURL: 'https://192.168.253.31:8000',
+					headers: {
+						Authorization: authStore.token ? `Bearer ${authStore.token}` : '',
+					},
+				})
+
+				this.userProfile = response.data
 				return { success: true, data: response.data }
 			} catch (error) {
 				return this.handleError(error)
