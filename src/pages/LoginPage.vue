@@ -147,7 +147,7 @@ const togglePasswordVisibility = () => {
 
 const login = async () => {
   try {
-    const response = await axios.post('https://pystorm.space//v1/authlogin-user', {
+    const response = await axios.post('https://pystorm.space/v1/authlogin-user', {
       username: username.value,
       password: password.value
     })

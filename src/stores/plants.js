@@ -40,7 +40,7 @@ export const usePlantsStore = defineStore('plants', {
 					'/v1/plants/identify-plant',
 					formData,
 					{
-						baseURL: 'https://pystorm.space/',
+						baseURL: 'https://pystorm.space',
 						headers: {
 							'Content-Type': 'multipart/form-data',
 							Authorization: this.token ? `Bearer ${this.token}` : '',
@@ -71,7 +71,7 @@ export const usePlantsStore = defineStore('plants', {
 				this.stage = 'uploading'
 
 				const response = await axios.post('/v1/leafs/create-leaf', formData, {
-					baseURL: 'https://pystorm.space/',
+					baseURL: 'https://pystorm.space',
 					headers: {
 						'Content-Type': 'multipart/form-data',
 						Authorization: this.token ? `Bearer ${this.token}` : '',
@@ -101,7 +101,7 @@ export const usePlantsStore = defineStore('plants', {
 				this.stage = 'fetching'
 
 				const response = await axios.get(`/v1/plants/plant/${plantId}`, {
-					baseURL: 'https://pystorm.space/',
+					baseURL: 'https://pystorm.space',
 					headers: {
 						Authorization: this.token ? `Bearer ${this.token}` : '',
 					},
@@ -123,7 +123,7 @@ export const usePlantsStore = defineStore('plants', {
 				this.stage = 'fetching'
 
 				const response = await axios.get('/v1/plants/plants', {
-					baseURL: 'https://pystorm.space/',
+					baseURL: 'https://pystorm.space',
 					headers: {
 						Authorization: this.token ? `Bearer ${this.token}` : '',
 					},
@@ -149,7 +149,7 @@ export const usePlantsStore = defineStore('plants', {
 					'/v1/questions/plant/ask',
 					{ plant_id: plantId, question },
 					{
-						baseURL: 'https://pystorm.space/',
+						baseURL: 'https://pystorm.space',
 						headers: {
 							Authorization: this.token ? `Bearer ${this.token}` : '',
 						},

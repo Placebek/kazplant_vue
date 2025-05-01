@@ -41,7 +41,7 @@ export const useAuthStore = defineStore('auth', {
 					'/v1/auth/register-user',
 					{ username, full_name, email, password },
 					{
-						baseURL: 'https://pystorm.space/',
+						baseURL: 'https://pystorm.space',
 						headers: {
 							'Content-Type': 'application/json',
 						},
@@ -69,7 +69,7 @@ export const useAuthStore = defineStore('auth', {
 					'/v1/auth/login-user',
 					{ username, password },
 					{
-						baseURL: 'https://pystorm.space/',
+						baseURL: 'https://pystorm.space',
 						headers: {
 							'Content-Type': 'application/json',
 						},
