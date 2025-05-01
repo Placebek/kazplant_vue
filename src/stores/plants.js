@@ -5,15 +5,19 @@ export const usePlantsStore = defineStore('plants', {
 	state: () => ({
 		error: null,
 		loading: false,
-		stage: null, // Этап: 'uploading', 'processing', 'searching', 'done'
+		stage: null,
 		token: localStorage.getItem('access_token') || null,
-		plantResult: null, // Храним результат идентификации
+		plantResult: null,
+		plants: [],
+		leafResult: null,
+		chatMessages: [],
 	}),
 
 	actions: {
 		handleError(error) {
 			if (error.response) {
-				this.error = error.response.data.message || 'Ошибка при идентификации'
+				this.error =
+					error.response.data.message || 'Ошибка при выполнении запроса'
 			} else {
 				this.error = 'Произошла ошибка, повторите позднее'
 			}
@@ -30,7 +34,7 @@ export const usePlantsStore = defineStore('plants', {
 			try {
 				this.loading = true
 				this.error = null
-				this.stage = 'uploading' // Этап загрузки
+				this.stage = 'uploading'
 
 				const response = await axios.post(
 					'/v1/plants/identify-plant',
@@ -44,14 +48,44 @@ export const usePlantsStore = defineStore('plants', {
 					}
 				)
 
-				this.stage = 'processing' // Этап обработки
-				await new Promise(resolve => setTimeout(resolve, 1000)) // Имитация обработки
+				this.stage = 'processing'
+				await new Promise(resolve => setTimeout(resolve, 1000))
 
-				this.stage = 'searching' // Этап поиска
-				await new Promise(resolve => setTimeout(resolve, 1000)) // Имитация поиска
+				this.stage = 'searching'
+				await new Promise(resolve => setTimeout(resolve, 1000))
 
 				this.plantResult = response.data
-				this.stage = 'done' // Завершение
+				this.stage = 'done'
+				return { success: true, data: response.data }
+			} catch (error) {
+				return this.handleError(error)
+			} finally {
+				this.loading = false
+			}
+		},
+
+		async diagnoseLeaf(formData) {
+			try {
+				this.loading = true
+				this.error = null
+				this.stage = 'uploading'
+
+				const response = await axios.post('/v1/leafs/create-leaf', formData, {
+					baseURL: 'https://192.168.253.31:8000',
+					headers: {
+						'Content-Type': 'multipart/form-data',
+						Authorization: this.token ? `Bearer ${this.token}` : '',
+					},
+				})
+
+				this.stage = 'processing'
+				await new Promise(resolve => setTimeout(resolve, 1000))
+
+				this.stage = 'searching'
+				await new Promise(resolve => setTimeout(resolve, 1000))
+
+				this.leafResult = response.data
+				this.stage = 'done'
 				return { success: true, data: response.data }
 			} catch (error) {
 				return this.handleError(error)
@@ -64,7 +98,7 @@ export const usePlantsStore = defineStore('plants', {
 			try {
 				this.loading = true
 				this.error = null
-				this.stage = 'fetching' // Этап получения данных
+				this.stage = 'fetching'
 
 				const response = await axios.get(`/v1/plants/plant/${plantId}`, {
 					baseURL: 'https://192.168.253.31:8000',
@@ -81,7 +115,7 @@ export const usePlantsStore = defineStore('plants', {
 				this.loading = false
 			}
 		},
-		
+
 		async getAllPlants() {
 			try {
 				this.loading = true
@@ -95,8 +129,36 @@ export const usePlantsStore = defineStore('plants', {
 					},
 				})
 
-				this.plants = response.data
+				this.plants = response.data || []
 				this.stage = 'done'
+				return { success: true, data: response.data }
+			} catch (error) {
+				return this.handleError(error)
+			} finally {
+				this.loading = false
+			}
+		},
+
+		async askPlantQuestion(plantId, question) {
+			try {
+				this.loading = true
+				this.error = null
+				this.stage = 'processing'
+
+				const response = await axios.post(
+					'/v1/questions/plant/ask',
+					{ plant_id: plantId, question },
+					{
+						baseURL: 'https://192.168.253.31:8000',
+						headers: {
+							Authorization: this.token ? `Bearer ${this.token}` : '',
+						},
+					}
+				)
+
+				this.stage = 'done'
+				this.chatMessages.push({ type: 'user', text: question })
+				this.chatMessages.push({ type: 'ai', text: response.data.answer })
 				return { success: true, data: response.data }
 			} catch (error) {
 				return this.handleError(error)

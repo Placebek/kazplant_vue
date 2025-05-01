@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100">
+  <div class="">
     <div class="camera-container relative">
       <!-- Заголовок и кнопки -->
       <div class="bg-[#129C52] p-4 flex items-center justify-between fixed w-full z-10">
@@ -123,13 +123,11 @@
               :style="{ width: progressWidth }"
             ></div>
           </div>
-          <p class="mt-2 text-gray-600">
-            {{ stageMessage }}
-          </p>
+          <p class="mt-2 text-gray-600">{{ stageMessage }}</p>
         </div>
       </div>
 
-      <!-- Результат идентификации -->
+      <!-- Результат идентификации растения -->
       <div
         v-if="plantResult"
         class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
@@ -157,6 +155,27 @@
         </div>
       </div>
 
+      <!-- Результат диагностики листа -->
+      <div
+        v-if="plantsStore.leafResult"
+        class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+      >
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+          <h2 class="text-2xl font-bold mb-4">Результат диагностики</h2>
+          <p><strong>Заболевание:</strong> {{ plantsStore.leafResult.disease.name }}</p>
+          <p><strong>Лечение:</strong> {{ plantsStore.leafResult.disease.treatment }}</p>
+          <p><strong>Профилактика:</strong> {{ plantsStore.leafResult.disease.prevention }}</p>
+          <div class="flex gap-4 mt-4">
+            <button
+              @click="plantsStore.leafResult = null"
+              class="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition-all duration-300"
+            >
+              Закрыть
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Скрытый input для галереи -->
       <input
         ref="fileInput"
@@ -165,6 +184,24 @@
         class="hidden"
         @change="handleGalleryPhoto"
       />
+
+      <!-- Переключатель режимов -->
+      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex gap-3 text-[1.5vh]">
+        <button
+          @click="is_diagnostic = false"
+          class="text-white px-3 py-1 rounded-full"
+          :class="{ 'bg-[#129C52]': !is_diagnostic, 'bg-gray-500': is_diagnostic }"
+        >
+          Идентифицировать
+        </button>
+        <button
+          @click="is_diagnostic = true"
+          class="text-white px-3 py-1 rounded-full"
+          :class="{ 'bg-[#129C52]': is_diagnostic, 'bg-gray-500': !is_diagnostic }"
+        >
+          Диагностика
+        </button>
+      </div>
 
       <!-- Нижняя панель -->
       <div
@@ -264,6 +301,7 @@ const previewPhoto = ref(null);
 const plantResult = ref(null);
 const facingMode = ref('environment');
 const streamRef = ref(null);
+const is_diagnostic = ref(false);
 
 // Pinia и роутер
 const plantsStore = usePlantsStore();
@@ -288,9 +326,7 @@ const stageMessage = computed(() => {
     case 'processing':
       return 'Обработка изображения...';
     case 'searching':
-      return 'Поиск растения...';
-    case 'fetching':
-      return 'Получение данных...';
+      return is_diagnostic.value ? 'Диагностика листа...' : 'Поиск растения...';
     case 'done':
       return 'Завершено!';
     default:
@@ -357,10 +393,18 @@ const confirmPhoto = async () => {
     const formData = new FormData();
     formData.append('photo', blob, 'photo.png');
 
-    const result = await plantsStore.identifyPlant(formData);
+    let result;
+    if (is_diagnostic.value) {
+      result = await plantsStore.diagnoseLeaf(formData);
+    } else {
+      result = await plantsStore.identifyPlant(formData);
+    }
+
     if (result.success) {
       photos.value.push(previewPhoto.value);
-      plantResult.value = result.data;
+      if (!is_diagnostic.value) {
+        plantResult.value = result.data;
+      }
     }
   }
   previewPhoto.value = null;
@@ -383,12 +427,20 @@ const handleGalleryPhoto = async (event) => {
     const formData = new FormData();
     formData.append('photo', file);
 
-    const result = await plantsStore.identifyPlant(formData);
+    let result;
+    if (is_diagnostic.value) {
+      result = await plantsStore.diagnoseLeaf(formData);
+    } else {
+      result = await plantsStore.identifyPlant(formData);
+    }
+
     if (result.success) {
       const reader = new FileReader();
       reader.onload = () => photos.value.push(reader.result);
       reader.readAsDataURL(file);
-      plantResult.value = result.data;
+      if (!is_diagnostic.value) {
+        plantResult.value = result.data;
+      }
     }
     fileInput.value.value = null;
   }
