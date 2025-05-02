@@ -650,6 +650,7 @@ onMounted(() => {
 
   // Set up Android callback for disease prediction
   window.handlePredictionResult = (resultDiseases) => {
+    alert(resultDiseases);
     if (resultDiseases?.length > 0) {
       alert('wefwef', resultDiseases);
       alert('[0]', resultDiseases[0]);
