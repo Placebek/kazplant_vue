@@ -95,7 +95,7 @@
             <img
               :src="previewPhoto"
               alt="Предпросмотр"
-              class="w-full max-w-[80vw] max-h-[60vh] object-contain rounded-lg"
+              class=" w-[80vw] h-[80vw] object-cover rounded-lg"
             />
             <div class="flex gap-4 mt-4 justify-center">
               <button
@@ -168,26 +168,17 @@
       <!-- Leaf Diagnosis Result Modal -->
       <Transition name="fade" appear>
         <div
-          v-if="plantsStore.leafResult || resultDisease"
+          v-if="plantsStore.leafResult"
           class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
         >
           <div class="bg-white p-6 rounded-lg w-full max-w-md">
             <h2 class="text-2xl font-bold mb-4">Результат диагностики</h2>
-            <p>
-              <strong>Заболевание:</strong>
-              {{ resultDisease ? classes.find(c => c.id === resultDisease[0]?.class_id)?.name : plantsStore.leafResult?.disease?.name }}
-            </p>
-            <p>
-              <strong>Лечение:</strong>
-              {{ resultDisease ? (resultDisease[0]?.treatment || 'Консультация с агрономом') : plantsStore.leafResult?.disease?.treatment }}
-            </p>
-            <p>
-              <strong>Профилактика:</strong>
-              {{ resultDisease ? (resultDisease[0]?.prevention || 'Регулярный осмотр растений') : plantsStore.leafResult?.disease?.prevention }}
-            </p>
+            <p><strong>Заболевание:</strong> {{ plantsStore.leafResult.disease.name }}</p>
+            <p><strong>Лечение:</strong> {{ plantsStore.leafResult.disease.treatment }}</p>
+            <p><strong>Профилактика:</strong> {{ plantsStore.leafResult.disease.prevention }}</p>
             <div class="flex gap-4 mt-4">
               <button
-                @click="resultDisease = null; plantsStore.leafResult = null"
+                @click="plantsStore.leafResult = null"
                 class="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition-all duration-300"
               >
                 Закрыть
@@ -213,25 +204,6 @@
               class="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition-all duration-300"
             >
               Попробовать снова
-            </button>
-          </div>
-        </div>
-      </Transition>
-
-      <!-- Error Modal -->
-      <Transition name="fade" appear>
-        <div
-          v-if="plantsStore.error"
-          class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-        >
-          <div class="bg-white p-6 rounded-lg w-full max-w-md text-center">
-            <h2 class="text-xl font-bold mb-4 text-red-500">Ошибка</h2>
-            <p class="text-gray-600 mb-4">{{ plantsStore.error }}</p>
-            <button
-              @click="plantsStore.error = null"
-              class="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition-all duration-300"
-            >
-              Закрыть
             </button>
           </div>
         </div>
@@ -372,48 +344,165 @@ const streamRef = ref(null);
 const is_diagnostic = ref(false);
 const showRetryModal = ref(false);
 const resultDisease = ref(null);
-
 const classes = [
-  { id: 1, name: "Apple___Apple_scab" },
-  { id: 2, name: "Apple___Black_rot" },
-  { id: 3, name: "Apple___Cedar_apple_rust" },
-  { id: 4, name: "Apple___healthy" },
-  { id: 5, name: "Blueberry___healthy" },
-  { id: 6, name: "Cherry_(including_sour)___healthy" },
-  { id: 7, name: "Cherry_(including_sour)___Powdery_mildew" },
-  { id: 8, name: "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot" },
-  { id: 9, name: "Corn_(maize)___Common_rust_" },
-  { id: 10, name: "Corn_(maize)___healthy" },
-  { id: 11, name: "Corn_(maize)___Northern_Leaf_Blight" },
-  { id: 12, name: "Grape___Black_rot" },
-  { id: 13, name: "Grape___Esca_(Black_Measles)" },
-  { id: 14, name: "Grape___healthy" },
-  { id: 15, name: "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)" },
-  { id: 16, name: "Orange___Haunglongbing_(Citrus_greening)" },
-  { id: 17, name: "Peach___Bacterial_spot" },
-  { id: 18, name: "Peach___healthy" },
-  { id: 19, name: "Pepper,_bell___Bacterial_spot" },
-  { id: 20, name: "Pepper,_bell___healthy" },
-  { id: 21, name: "Potato___Early_blight" },
-  { id: 22, name: "Potato___healthy" },
-  { id: 23, name: "Potato___Late_blight" },
-  { id: 24, name: "Raspberry___healthy" },
-  { id: 25, name: "Soybean___healthy" },
-  { id: 26, name: "Squash___Powdery_mildew" },
-  { id: 27, name: "Strawberry___healthy" },
-  { id: 28, name: "Strawberry___Leaf_scorch" },
-  { id: 29, name: "Tomato___Bacterial_spot" },
-  { id: 30, name: "Tomato___Early_blight" },
-  { id: 31, name: "Tomato___healthy" },
-  { id: 32, name: "Tomato___Late_blight" },
-  { id: 33, name: "Tomato___Leaf_Mold" },
-  { id: 34, name: "Tomato___Septoria_leaf_spot" },
-  { id: 35, name: "Tomato___Spider_mites Two-spotted_spider_mite" },
-  { id: 36, name: "Tomato___Target_Spot" },
-  { id: 37, name: "Tomato___Tomato_mosaic_virus" },
-  { id: 38, name: "Tomato___Tomato_Yellow_Leaf_Curl_Virus" },
-  { id: 39, name: "tomato" }
-];
+  {
+    "id": 1,
+    "name": "Apple___Apple_scab"
+  },
+  {
+    "id": 2,
+    "name": "Apple___Black_rot"
+  },
+  {
+    "id": 3,
+    "name": "Apple___Cedar_apple_rust"
+  },
+  {
+    "id": 4,
+    "name": "Apple___healthy"
+  },
+  {
+    "id": 5,
+    "name": "Blueberry___healthy"
+  },
+  {
+    "id": 6,
+    "name": "Cherry_(including_sour)___healthy"
+  },
+  {
+    "id": 7,
+    "name": "Cherry_(including_sour)___Powdery_mildew"
+  },
+  {
+    "id": 8,
+    "name": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot"
+  },
+  {
+    "id": 9,
+    "name": "Corn_(maize)___Common_rust_"
+  },
+  {
+    "id": 10,
+    "name": "Corn_(maize)___healthy"
+  },
+  {
+    "id": 11,
+    "name": "Corn_(maize)___Northern_Leaf_Blight"
+  },
+  {
+    "id": 12,
+    "name": "Grape___Black_rot"
+  },
+  {
+    "id": 13,
+    "name": "Grape___Esca_(Black_Measles)"
+  },
+  {
+    "id": 14,
+    "name": "Grape___healthy"
+  },
+  {
+    "id": 15,
+    "name": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)"
+  },
+  {
+    "id": 16,
+    "name": "Orange___Haunglongbing_(Citrus_greening)"
+  },
+  {
+    "id": 17,
+    "name": "Peach___Bacterial_spot"
+  },
+  {
+    "id": 18,
+    "name": "Peach___healthy"
+  },
+  {
+    "id": 19,
+    "name": "Pepper,_bell___Bacterial_spot"
+  },
+  {
+    "id": 20,
+    "name": "Pepper,_bell___healthy"
+  },
+  {
+    "id": 21,
+    "name": "Potato___Early_blight"
+  },
+  {
+    "id": 22,
+    "name": "Potato___healthy"
+  },
+  {
+    "id": 23,
+    "name": "Potato___Late_blight"
+  },
+  {
+    "id": 24,
+    "name": "Raspberry___healthy"
+  },
+  {
+    "id": 25,
+    "name": "Soybean___healthy"
+  },
+  {
+    "id": 26,
+    "name": "Squash___Powdery_mildew"
+  },
+  {
+    "id": 27,
+    "name": "Strawberry___healthy"
+  },
+  {
+    "id": 28,
+    "name": "Strawberry___Leaf_scorch"
+  },
+  {
+    "id": 29,
+    "name": "Tomato___Bacterial_spot"
+  },
+  {
+    "id": 30,
+    "name": "Tomato___Early_blight"
+  },
+  {
+    "id": 31,
+    "name": "Tomato___healthy"
+  },
+  {
+    "id": 32,
+    "name": "Tomato___Late_blight"
+  },
+  {
+    "id": 33,
+    "name": "Tomato___Leaf_Mold"
+  },
+  {
+    "id": 34,
+    "name": "Tomato___Septoria_leaf_spot"
+  },
+  {
+    "id": 35,
+    "name": "Tomato___Spider_mites Two-spotted_spider_mite"
+  },
+  {
+    "id": 36,
+    "name": "Tomato___Target_Spot"
+  },
+  {
+    "id": 37,
+    "name": "Tomato___Tomato_mosaic_virus"
+  },
+  {
+    "id": 38,
+    "name": "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+  },
+  {
+    "id": 39,
+    "name": "tomato"
+  }
+]
+
 
 // Pinia and Router
 const plantsStore = usePlantsStore();
@@ -499,55 +588,60 @@ const takePhoto = () => {
 };
 
 // Confirm Photo
+// const confirmPhoto = async () => {
+//   if (previewPhoto.value) {
+//     // const response = await fetch(previewPhoto.value);
+//     // const blob = await response.blob();
+//     // const formData = new FormData();
+//     // formData.append('photo', blob, 'photo.png');
+
+//     // let result;
+//     // if (is_diagnostic.value) {
+//     //   result = await plantsStore.diagnoseLeaf(formData);
+//     // } else {
+//     //   result = await plantsStore.identifyPlant(formData);
+//     //   if (result.success && result.data.probability < 0.2) {
+//     //     showRetryModal.value = true;
+//     //     previewPhoto.value = null;
+//     //     return;
+//     //   }
+//     // }
+
+//     // if (result.success) {
+//     //   photos.value.push(previewPhoto.value);
+//     //   if (!is_diagnostic.value) {
+//     //     plantResult.value = result.data;
+//     //   }
+//     // } else {
+//     //   plantsStore.error = result.error;
+//     // }
+//     const canvas = document.createElement('canvas');        
+//     canvas.width = img.naturalWidth;
+//     canvas.height = img.naturalHeight;        
+//     const ctx = canvas.getContext('2d');
+//     ctx.drawImage(img, 0, 0);        
+//     const dataURL = canvas.toDataURL('image/jpeg', 1.0);
+//     if (window.ok?.recognizeDiseaseClick) {
+//       window.ok.recognizeDiseaseClick(dataURL);
+//     } else {
+//       console.error("recognizeDiseaseClick not available");
+//     }
+//   }
+//   previewPhoto.value = null;
+// };
+
 const confirmPhoto = async () => {
   if (!previewPhoto.value) {
-    console.error('No preview photo selected');
-    plantsStore.error = 'Не выбрано изображение для обработки';
+    console.error("No preview photo selected.", previewPhoto.value);
     return;
   }
+  console.error("selected.", previewPhoto.value);
 
-  // Check internet connectivity
-  const isOnline = navigator.onLine;
-
-  if (isOnline) {
-    // Online: Use backend endpoints
-    plantsStore.stage = 'uploading';
-    const response = await fetch(previewPhoto.value);
-    const blob = await response.blob();
-    const formData = new FormData();
-    formData.append('photo', blob, 'photo.png');
-
-    let result;
-    if (is_diagnostic.value) {
-      result = await plantsStore.diagnoseLeaf(formData);
-    } else {
-      result = await plantsStore.identifyPlant(formData);
-      if (result.success && result.data.probability < 0.2) {
-        showRetryModal.value = true;
-        previewPhoto.value = null;
-        plantsStore.stage = '';
-        return;
-      }
-    }
-
-    plantsStore.stage = 'done';
-    if (result.success) {
-      photos.value.push(previewPhoto.value);
-      if (!is_diagnostic.value) {
-        plantResult.value = result.data;
-      }
-    } else {
-      plantsStore.error = result.error;
-    }
-  } else if (is_diagnostic.value && window.ok?.recognizeDiseaseClick) {
-    // Offline: Use Android Java method for diagnosis
-    plantsStore.stage = 'processing';
+  if (window.ok?.recognizeDiseaseClick) {
     window.ok.recognizeDiseaseClick(previewPhoto.value);
   } else {
-    console.error('Offline mode only supported for diagnosis with Android');
-    plantsStore.error = 'Оффлайн-режим доступен только для диагностики на Android';
+    console.error("recognizeDiseaseClick not available on window.ok");
   }
-
   previewPhoto.value = null;
 };
 
@@ -565,48 +659,30 @@ const openGallery = () => {
 const handleGalleryPhoto = async (event) => {
   const file = event.target.files[0];
   if (file) {
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const dataURL = reader.result;
-      const isOnline = navigator.onLine;
+    const formData = new FormData();
+    formData.append('photo', file);
 
-      if (isOnline) {
-        // Online: Use backend endpoints
-        plantsStore.stage = 'uploading';
-        const formData = new FormData();
-        formData.append('photo', file);
-
-        let result;
-        if (is_diagnostic.value) {
-          result = await plantsStore.diagnoseLeaf(formData);
-        } else {
-          result = await plantsStore.identifyPlant(formData);
-          if (result.success && result.data.probability < 0.2) {
-            showRetryModal.value = true;
-            plantsStore.stage = '';
-            return;
-          }
-        }
-
-        plantsStore.stage = 'done';
-        if (result.success) {
-          photos.value.push(dataURL);
-          if (!is_diagnostic.value) {
-            plantResult.value = result.data;
-          }
-        } else {
-          plantsStore.error = result.error;
-        }
-      } else if (is_diagnostic.value && window.ok?.recognizeDiseaseClick) {
-        // Offline: Use Android Java method for diagnosis
-        plantsStore.stage = 'processing';
-        window.ok.recognizeDiseaseClick(dataURL);
-      } else {
-        console.error('Offline mode only supported for diagnosis with Android');
-        plantsStore.error = 'Оффлайн-режим доступен только для диагностики на Android';
+    let result;
+    if (is_diagnostic.value) {
+      result = await plantsStore.diagnoseLeaf(formData);
+    } else {
+      result = await plantsStore.identifyPlant(formData);
+      if (result.success && result.data.probability < 0.2) {
+        showRetryModal.value = true;
+        return;
       }
-    };
-    reader.readAsDataURL(file);
+    }
+
+    if (result.success) {
+      const reader = new FileReader();
+      reader.onload = () => photos.value.push(reader.result);
+      reader.readAsDataURL(file);
+      if (!is_diagnostic.value) {
+        plantResult.value = result.data;
+      }
+    } else {
+      plantsStore.error = result.error;
+    }
     fileInput.value.value = null;
   }
 };
@@ -647,20 +723,16 @@ onMounted(() => {
     startCamera();
   }
 
-  // Set up Android callback for disease prediction
   window.handlePredictionResult = (resultDiseases) => {
-    if (resultDiseases?.length > 0) {
-      resultDisease.value = resultDiseases;
-      plantsStore.stage = 'done';
-    } else {
-      plantsStore.error = 'Не удалось определить заболевание';
-    }
+
+        alert(classes[resultDiseases[0].class_id].name, classes);
+        resultDisease.value = resultDiseases;
+
   };
 });
 
 onBeforeUnmount(() => {
   stopCamera();
-  delete window.handlePredictionResult;
 });
 </script>
 
