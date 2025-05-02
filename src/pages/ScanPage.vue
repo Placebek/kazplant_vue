@@ -175,7 +175,7 @@
             <h2 class="text-2xl font-bold mb-4">Результат диагностики</h2>
             <p>
               <strong>Заболевание:</strong>
-              {{ resultDisease ? classes.find(c => c.id === resultDisease[0])?.name : plantsStore.leafResult?.disease?.name }}
+              {{ resultDisease ? classes.find(c => c.id === resultDisease)?.name : plantsStore.leafResult?.disease?.name }}
             </p>
             <p>
               <strong>Лечение:</strong>
