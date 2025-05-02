@@ -651,6 +651,9 @@ onMounted(() => {
   // Set up Android callback for disease prediction
   window.handlePredictionResult = (resultDiseases) => {
     if (resultDiseases?.length > 0) {
+      alert('wefwef', resultDiseases);
+      alert('[0]', resultDiseases[0]);
+      alert('id', resultDiseases.id);
       resultDisease.value = resultDiseases;
       plantsStore.stage = 'done';
     } else {
