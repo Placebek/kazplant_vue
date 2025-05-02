@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen bg-black">
-    <div class="camera-container relative">
+    <div class="camera-container relative min-h-screen">
       <!-- Header with Back Button and Camera Controls -->
       <Transition name="fade-slide" appear>
-        <div class="bg-[#129C52] p-4 flex items-center justify-between fixed w-full z-10">
+        <div class="bg-[#129C52] p-4 flex items-center justify-between fixed top-0 left-0 w-full z-10">
           <router-link to="/home">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -59,8 +59,7 @@
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="380"
-            height="380"
+            class="w-[70vw] h-[70vw] max-w-[400px] max-h-[300px]"
             viewBox="0 0 512 512"
           >
             <path
@@ -84,7 +83,7 @@
         muted
         class="hidden"
       ></video>
-      <canvas ref="canvas" class="bg-black w-[100vw] h-[100vh]"></canvas>
+      <canvas ref="canvas" class="bg-black w-full h-[100dvh]"></canvas>
 
       <!-- Photo Preview Modal -->
       <Transition name="fade" appear>
@@ -92,11 +91,11 @@
           v-if="previewPhoto"
           class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
         >
-          <div class="relative max-w-md w-full p-4 flex flex-col justify-center items-center">
+          <div class="relative w-full max-w-md p-4 flex flex-col justify-center items-center">
             <img
               :src="previewPhoto"
               alt="Предпросмотр"
-              class="w-[80vw] h-[80vw] object-cover rounded-lg"
+              class=" w-[80vw] h-[80vw] object-cover rounded-lg"
             />
             <div class="flex gap-4 mt-4 justify-center">
               <button
@@ -122,7 +121,7 @@
           v-if="plantsStore.loading"
           class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
         >
-          <div class="bg-white p-6 rounded-lg max-w-md w-full text-center">
+          <div class="bg-white p-6 rounded-lg w-full max-w-md text-center">
             <h2 class="text-xl font-bold mb-4">Обработка...</h2>
             <div class="relative w-full h-4 bg-gray-200 rounded-full overflow-hidden">
               <div
@@ -141,7 +140,7 @@
           v-if="plantResult"
           class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
         >
-          <div class="bg-white p-6 rounded-lg max-w-md w-full">
+          <div class="bg-white p-6 rounded-lg w-full max-w-md">
             <h2 class="text-2xl font-bold mb-4">Результат идентификации</h2>
             <p><strong>Название:</strong> {{ plantResult.name }}</p>
             <p><strong>Описание:</strong> {{ plantResult.description }}</p>
@@ -172,7 +171,7 @@
           v-if="plantsStore.leafResult"
           class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
         >
-          <div class="bg-white p-6 rounded-lg max-w-md w-full">
+          <div class="bg-white p-6 rounded-lg w-full max-w-md">
             <h2 class="text-2xl font-bold mb-4">Результат диагностики</h2>
             <p><strong>Заболевание:</strong> {{ plantsStore.leafResult.disease.name }}</p>
             <p><strong>Лечение:</strong> {{ plantsStore.leafResult.disease.treatment }}</p>
@@ -195,7 +194,7 @@
           v-if="showRetryModal"
           class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
         >
-          <div class="bg-white p-6 rounded-lg max-w-md w-full text-center">
+          <div class="bg-white p-6 rounded-lg w-full max-w-md text-center">
             <h2 class="text-xl font-bold mb-4 text-red-500">Неудачный снимок</h2>
             <p class="text-gray-600 mb-4">
               У вас получился неудачный снимок, попробуйте пожалуйста снять более точно.
@@ -221,7 +220,7 @@
 
       <!-- Mode Switcher -->
       <Transition name="fade-slide" appear>
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex gap-3 text-[1.5vh]">
+        <div class="fixed bottom-[100px] left-1/2 -translate-x-1/2 flex gap-3 text-[1.5vh] z-10">
           <button
             @click="is_diagnostic = false"
             class="text-white px-3 py-1 rounded-full"
@@ -242,7 +241,7 @@
       <!-- Bottom Control Bar -->
       <Transition name="fade-slide" appear>
         <div
-          class="fixed bottom-3 left-1/2 transform -translate-x-1/2 flex gap-3 h-[80px] bg-[#129C52] w-full justify-between px-8 z-10"
+          class="fixed bottom-0 left-0 w-full h-[80px] bg-[#129C52] flex justify-between items-center px-8 z-10"
         >
           <button @click="openGallery" class="transition-all duration-300">
             <svg
@@ -303,7 +302,7 @@
           v-if="showGallery"
           class="fixed inset-0 bg-black bg-opacity-75 p-4 flex items-center justify-center z-50"
         >
-          <div class="bg-white p-4 rounded-lg max-w-md w-full">
+          <div class="bg-white p-4 rounded-lg w-full max-w-md">
             <h2 class="text-2xl font-bold mb-4">Снимки:</h2>
             <div class="grid grid-cols-2 gap-4">
               <div v-for="(photo, index) in photos" :key="index" class="photo">
@@ -429,34 +428,71 @@ const takePhoto = () => {
 };
 
 // Confirm Photo
+// const confirmPhoto = async () => {
+//   if (previewPhoto.value) {
+//     // const response = await fetch(previewPhoto.value);
+//     // const blob = await response.blob();
+//     // const formData = new FormData();
+//     // formData.append('photo', blob, 'photo.png');
+
+//     // let result;
+//     // if (is_diagnostic.value) {
+//     //   result = await plantsStore.diagnoseLeaf(formData);
+//     // } else {
+//     //   result = await plantsStore.identifyPlant(formData);
+//     //   if (result.success && result.data.probability < 0.2) {
+//     //     showRetryModal.value = true;
+//     //     previewPhoto.value = null;
+//     //     return;
+//     //   }
+//     // }
+
+//     // if (result.success) {
+//     //   photos.value.push(previewPhoto.value);
+//     //   if (!is_diagnostic.value) {
+//     //     plantResult.value = result.data;
+//     //   }
+//     // } else {
+//     //   plantsStore.error = result.error;
+//     // }
+//     const canvas = document.createElement('canvas');        
+//     canvas.width = img.naturalWidth;
+//     canvas.height = img.naturalHeight;        
+//     const ctx = canvas.getContext('2d');
+//     ctx.drawImage(img, 0, 0);        
+//     const dataURL = canvas.toDataURL('image/jpeg', 1.0);
+//     if (window.ok?.recognizeDiseaseClick) {
+//       window.ok.recognizeDiseaseClick(dataURL);
+//     } else {
+//       console.error("recognizeDiseaseClick not available");
+//     }
+//   }
+//   previewPhoto.value = null;
+// };
+
 const confirmPhoto = async () => {
-  if (previewPhoto.value) {
-    const response = await fetch(previewPhoto.value);
-    const blob = await response.blob();
-    const formData = new FormData();
-    formData.append('photo', blob, 'photo.png');
-
-    let result;
-    if (is_diagnostic.value) {
-      result = await plantsStore.diagnoseLeaf(formData);
-    } else {
-      result = await plantsStore.identifyPlant(formData);
-      if (result.success && result.data.probability < 0.2) {
-        showRetryModal.value = true;
-        previewPhoto.value = null;
-        return;
-      }
-    }
-
-    if (result.success) {
-      photos.value.push(previewPhoto.value);
-      if (!is_diagnostic.value) {
-        plantResult.value = result.data;
-      }
-    } else {
-      plantsStore.error = result.error;
-    }
+  if (!previewPhoto.value) {
+    console.error("No preview photo selected.");
+    return;
   }
+
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    const base64Image = event.target.result; // содержит data:image/jpeg;base64,...
+
+    if (window.ok?.recognizeDiseaseClick) {
+      window.ok.recognizeDiseaseClick(base64Image);
+    } else {
+      console.error("recognizeDiseaseClick not available on window.ok");
+    }
+  };
+
+  reader.onerror = function (error) {
+    console.error("Error reading file:", error);
+  };
+
+  reader.readAsDataURL(previewPhoto.value); // читаем файл как base64 data URL
+
   previewPhoto.value = null;
 };
 
