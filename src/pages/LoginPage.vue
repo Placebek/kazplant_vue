@@ -48,7 +48,7 @@
 
     <!-- Форма входа -->
     <transition name="container">
-      <div class="flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div class="flex flex-col items-center ">
         <div class="mb-[30px] text-center">
           <div class="text-[#169C89] font-medium text-[31px] leading-6">С возвращением!</div>
           <div class="text-[#999999] text-[22px]">Введите свои данные для входа</div>
