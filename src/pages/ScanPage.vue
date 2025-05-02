@@ -175,7 +175,7 @@
             <h2 class="text-2xl font-bold mb-4">Результат диагностики</h2>
             <p>
               <strong>Заболевание:</strong>
-              {{ resultDisease ? classes.find(c => c.id === resultDisease)?.name : plantsStore.leafResult?.disease?.name }}
+              {{ 'Заболевание отсутствует' }} 
             </p>
             <p>
               <strong>Лечение:</strong>
@@ -373,47 +373,47 @@ const is_diagnostic = ref(false);
 const showRetryModal = ref(false);
 const resultDisease = ref(null);
 
-const classes = [
-  { id: 1, name: "Apple___Apple_scab" },
-  { id: 2, name: "Apple___Black_rot" },
-  { id: 3, name: "Apple___Cedar_apple_rust" },
-  { id: 4, name: "Apple___healthy" },
-  { id: 5, name: "Blueberry___healthy" },
-  { id: 6, name: "Cherry_(including_sour)___healthy" },
-  { id: 7, name: "Cherry_(including_sour)___Powdery_mildew" },
-  { id: 8, name: "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot" },
-  { id: 9, name: "Corn_(maize)___Common_rust_" },
-  { id: 10, name: "Corn_(maize)___healthy" },
-  { id: 11, name: "Corn_(maize)___Northern_Leaf_Blight" },
-  { id: 12, name: "Grape___Black_rot" },
-  { id: 13, name: "Grape___Esca_(Black_Measles)" },
-  { id: 14, name: "Grape___healthy" },
-  { id: 15, name: "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)" },
-  { id: 16, name: "Orange___Haunglongbing_(Citrus_greening)" },
-  { id: 17, name: "Peach___Bacterial_spot" },
-  { id: 18, name: "Peach___healthy" },
-  { id: 19, name: "Pepper,_bell___Bacterial_spot" },
-  { id: 20, name: "Pepper,_bell___healthy" },
-  { id: 21, name: "Potato___Early_blight" },
-  { id: 22, name: "Potato___healthy" },
-  { id: 23, name: "Potato___Late_blight" },
-  { id: 24, name: "Raspberry___healthy" },
-  { id: 25, name: "Soybean___healthy" },
-  { id: 26, name: "Squash___Powdery_mildew" },
-  { id: 27, name: "Strawberry___healthy" },
-  { id: 28, name: "Strawberry___Leaf_scorch" },
-  { id: 29, name: "Tomato___Bacterial_spot" },
-  { id: 30, name: "Tomato___Early_blight" },
-  { id: 31, name: "Tomato___healthy" },
-  { id: 32, name: "Tomato___Late_blight" },
-  { id: 33, name: "Tomato___Leaf_Mold" },
-  { id: 34, name: "Tomato___Septoria_leaf_spot" },
-  { id: 35, name: "Tomato___Spider_mites Two-spotted_spider_mite" },
-  { id: 36, name: "Tomato___Target_Spot" },
-  { id: 37, name: "Tomato___Tomato_mosaic_virus" },
-  { id: 38, name: "Tomato___Tomato_Yellow_Leaf_Curl_Virus" },
-  { id: 39, name: "tomato" }
-];
+// const classes = [
+//   { id: 1, name: "Apple___Apple_scab" },
+//   { id: 2, name: "Apple___Black_rot" },
+//   { id: 3, name: "Apple___Cedar_apple_rust" },
+//   { id: 4, name: "Apple___healthy" },
+//   { id: 5, name: "Blueberry___healthy" },
+//   { id: 6, name: "Cherry_(including_sour)___healthy" },
+//   { id: 7, name: "Cherry_(including_sour)___Powdery_mildew" },
+//   { id: 8, name: "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot" },
+//   { id: 9, name: "Corn_(maize)___Common_rust_" },
+//   { id: 10, name: "Corn_(maize)___healthy" },
+//   { id: 11, name: "Corn_(maize)___Northern_Leaf_Blight" },
+//   { id: 12, name: "Grape___Black_rot" },
+//   { id: 13, name: "Grape___Esca_(Black_Measles)" },
+//   { id: 14, name: "Grape___healthy" },
+//   { id: 15, name: "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)" },
+//   { id: 16, name: "Orange___Haunglongbing_(Citrus_greening)" },
+//   { id: 17, name: "Peach___Bacterial_spot" },
+//   { id: 18, name: "Peach___healthy" },
+//   { id: 19, name: "Pepper,_bell___Bacterial_spot" },
+//   { id: 20, name: "Pepper,_bell___healthy" },
+//   { id: 21, name: "Potato___Early_blight" },
+//   { id: 22, name: "Potato___healthy" },
+//   { id: 23, name: "Potato___Late_blight" },
+//   { id: 24, name: "Raspberry___healthy" },
+//   { id: 25, name: "Soybean___healthy" },
+//   { id: 26, name: "Squash___Powdery_mildew" },
+//   { id: 27, name: "Strawberry___healthy" },
+//   { id: 28, name: "Strawberry___Leaf_scorch" },
+//   { id: 29, name: "Tomato___Bacterial_spot" },
+//   { id: 30, name: "Tomato___Early_blight" },
+//   { id: 31, name: "Tomato___healthy" },
+//   { id: 32, name: "Tomato___Late_blight" },
+//   { id: 33, name: "Tomato___Leaf_Mold" },
+//   { id: 34, name: "Tomato___Septoria_leaf_spot" },
+//   { id: 35, name: "Tomato___Spider_mites Two-spotted_spider_mite" },
+//   { id: 36, name: "Tomato___Target_Spot" },
+//   { id: 37, name: "Tomato___Tomato_mosaic_virus" },
+//   { id: 38, name: "Tomato___Tomato_Yellow_Leaf_Curl_Virus" },
+//   { id: 39, name: "tomato" }
+// ];
 
 // Pinia and Router
 const plantsStore = usePlantsStore();
