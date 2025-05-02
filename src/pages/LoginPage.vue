@@ -120,12 +120,12 @@
         </div>
       </div>
     </transition>
-    <div class="absolute bottom-0 bg-[#E8F3F2] w-full h-[80px] flex justify-center items-center">
-      <div class="text-[#999999] text-[18px]">Нет аккаунта?</div>
-      <router-link to="/register" class="text-[#169C89] text-[18px] ml-2">
-        Зарегистрироваться
-      </router-link>
-    </div>
+  </div>
+  <div class=" bg-[#E8F3F2] w-full h-[80px] flex justify-center items-center">
+    <div class="text-[#999999] text-[18px]">Нет аккаунта?</div>
+    <router-link to="/register" class="text-[#169C89] text-[18px] ml-2">
+      Зарегистрироваться
+    </router-link>
   </div>
 </template>
 

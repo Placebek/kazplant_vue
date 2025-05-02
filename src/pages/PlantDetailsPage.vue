@@ -203,22 +203,39 @@ const fetchPlant = async () => {
 };
 
 // Запуск сегментации
-const toSegmentation = (img) => {
+const toSegmentation = async (img) => {
   modal.value = true;
   segmentationLoading.value = true;
   segmentationError.value = null;
   segmentedData.value = null;
 
-  // Формируем полный URL изображения
   const dataURL = `https://pystorm.space/${img}`;
-  if (window.ok?.segmentDiseaseClick) {
-    window.ok.segmentDiseaseClick(dataURL);
-  } else {
+
+  try {
+    const response = await fetch(dataURL);
+    const blob = await response.blob();
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64data = reader.result;
+
+      if (window.ok?.segmentDiseaseClick) {
+        window.ok.segmentDiseaseClick(base64data);
+      } else {
+        segmentationLoading.value = false;
+        segmentationError.value = 'Функция сегментации недоступна';
+        console.error('segmentDiseaseClick not available');
+      }
+    };
+
+    reader.readAsDataURL(blob);
+  } catch (error) {
     segmentationLoading.value = false;
-    segmentationError.value = 'Функция сегментации недоступна';
-    console.error('segmentDiseaseClick not available');
+    segmentationError.value = 'Ошибка загрузки изображения';
+    console.error('Ошибка при загрузке изображения:', error);
   }
 };
+
 
 // Закрытие модального окна
 const closeSegmentationModal = () => {
