@@ -565,6 +565,7 @@ onMounted(() => {
   }
 
   window.handlePredictionResult = (resultDiseases) => {
+        alert(resultDiseases)
         resultDisease.value = resultDiseases;      };
 });
 
