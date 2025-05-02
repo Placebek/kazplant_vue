@@ -519,7 +519,8 @@ const confirmPhoto = async () => {
 
     let result;
     if (is_diagnostic.value) {
-      result = await plantsStore.diagnoseLeaf(formData);
+        plantsStore.stage = 'processing';
+        window.ok.recognizeDiseaseClick(previewPhoto.value);
     } else {
       result = await plantsStore.identifyPlant(formData);
       if (result.success && result.data.probability < 0.2) {
