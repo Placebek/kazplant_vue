@@ -562,6 +562,9 @@ onMounted(() => {
     ctx.value = canvas.value.getContext('2d');
     startCamera();
   }
+
+  window.handlePredictionResult = (resultDisease) => {
+        this.resultDisease = resultDisease;      };
 });
 
 onBeforeUnmount(() => {
