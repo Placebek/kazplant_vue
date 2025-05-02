@@ -472,27 +472,16 @@ const takePhoto = () => {
 
 const confirmPhoto = async () => {
   if (!previewPhoto.value) {
-    console.error("No preview photo selected.");
+    console.error("No preview photo selected.", previewPhoto.value);
     return;
   }
+  console.error("selected.", previewPhoto.value);
 
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    const base64Image = event.target.result; // содержит data:image/jpeg;base64,...
-
-    if (window.ok?.recognizeDiseaseClick) {
-      window.ok.recognizeDiseaseClick(base64Image);
-    } else {
-      console.error("recognizeDiseaseClick not available on window.ok");
-    }
-  };
-
-  reader.onerror = function (error) {
-    console.error("Error reading file:", error);
-  };
-
-  reader.readAsDataURL(previewPhoto.value); // читаем файл как base64 data URL
-
+  if (window.ok?.recognizeDiseaseClick) {
+    window.ok.recognizeDiseaseClick(previewPhoto.value);
+  } else {
+    console.error("recognizeDiseaseClick not available on window.ok");
+  }
   previewPhoto.value = null;
 };
 
