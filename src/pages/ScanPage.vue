@@ -343,6 +343,7 @@ const facingMode = ref('environment');
 const streamRef = ref(null);
 const is_diagnostic = ref(false);
 const showRetryModal = ref(false);
+const resultDisease = ref(null);
 
 // Pinia and Router
 const plantsStore = usePlantsStore();
@@ -563,8 +564,8 @@ onMounted(() => {
     startCamera();
   }
 
-  window.handlePredictionResult = (resultDisease) => {
-        this.resultDisease = resultDisease;      };
+  window.handlePredictionResult = (resultDiseases) => {
+        resultDisease.value = resultDiseases;      };
 });
 
 onBeforeUnmount(() => {
