@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white">
+  <div class="min-h-screen bg-custom-gradient">
     <!-- Header -->
     <Transition name="fade-slide" appear>
       <div class="min-w-[100vw] bg-[#129C52] p-4 text-xl text-white">

@@ -1,5 +1,5 @@
 <template>
-  <div class=" bg-white">
+  <div class="min-h-screen bg-custom-gradient">
     <!-- Header -->
     <Transition name="fade-slide" appear>
       <div class="min-w-[100vw] bg-[#129C52] p-4 text-xl text-white" style="--transition-index: 1">
@@ -56,11 +56,11 @@
           <!-- Статистика -->
           <Transition name="fade-slide" appear>
             <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4" style="--transition-index: 3">
-              <div class="bg-[#F8F8F8] p-4 rounded-lg shadow-sm">
+              <div class="bg-[#F8F8F8] p-4 rounded-lg shadow-sm border-2">
                 <h4 class="text-lg font-medium text-[#129C52]">Ваши растения</h4>
                 <p class="text-gray-600 text-sm">{{ userPlants.length }} растений</p>
               </div>
-              <div class="bg-[#F8F8F8] p-4 rounded-lg shadow-sm">
+              <div class="bg-[#F8F8F8] p-4 rounded-lg shadow-sm border-2">
                 <h4 class="text-lg font-medium text-[#129C52]">Записи ухода</h4>
                 <p class="text-gray-600 text-sm">{{ totalCareLogs }} записей</p>
               </div>

@@ -1,11 +1,9 @@
 <template>
-	<div class="max-h-screen bg-black">
-		<div class="camera-container relative">
+	<div class=" bg-black">
+		<div class=" relative">
 			<!-- Header with Back Button and Camera Controls -->
 			<Transition name="fade-slide" appear>
-				<div
-					class="bg-[#129C52] p-4 flex items-center justify-between fixed top-0 left-0 w-full z-10 bg-opacity-100 max-h-[7vh]"
-				>
+				<div class="bg-[#129C52] p-4 flex items-center justify-between fixed top-0 left-0 w-full z-10 bg-opacity-100 max-h-[7vh]">
 					<router-link to="/home">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -61,16 +59,13 @@
 				<div
 					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
 				>
-					<svg width="400px" height="400px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0.36" transform="rotate(0)">
-						<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-						<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.048"></g>
-						<g id="SVGRepo_iconCarrier"> 
-							<path d="M18.5 15V18.5H15" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"></path> 
-							<path d="M9.00003 18.5H5.50003V15" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"></path> 
-							<path d="M15 5.49997L18.4958 5.49997V8.99997" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"></path> 
-							<path d="M9.00003 5.49997H5.50003V8.99997" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"></path> 
-						</g>
-					</svg>
+					<svg width="202" height="202" viewBox="0 0 202 202" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M157.522 1H201V46.4545" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+<path d="M44.4781 201L0.999905 201L0.999908 155.545" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+<path d="M1 46.4545L0.999998 0.99999L44.4782 0.999988" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+<path d="M201 155.545L201 201L157.522 201" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+</svg>
+
 				</div>
 			</Transition>
 

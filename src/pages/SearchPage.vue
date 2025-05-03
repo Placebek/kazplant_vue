@@ -1,5 +1,5 @@
 <template>
-  <div class=" bg-gray-100">
+  <div class=" bg-custom-gradient">
     <!-- Заголовок -->
     <Transition name="fade-slide" appear>
       <div class="min-w-[100vw] bg-[#129C52] p-4 text-xl text-white" style="--transition-index: 1">
