@@ -13,7 +13,7 @@ import { RouterView } from 'vue-router';
 
 <style scoped>
 /* Slide-and-scale transition for page navigation */
-.slide-scale-enter-active,
+/* .slide-scale-enter-active,
 .slide-scale-leave-active {
   transition: all 0.4s ease;
 }
@@ -36,5 +36,5 @@ import { RouterView } from 'vue-router';
 .slide-scale-leave-to {
   opacity: 0;
   transform: translateX(-50px) scale(0.95);
-}
+} */
 </style>
