@@ -1,10 +1,10 @@
 <template>
-	<div class="min-h-screen bg-black">
-		<div class="camera-container relative min-h-screen">
+	<div class="max-h-screen bg-black">
+		<div class="camera-container relative">
 			<!-- Header with Back Button and Camera Controls -->
 			<Transition name="fade-slide" appear>
 				<div
-					class="bg-[#129C52] p-4 flex items-center justify-between fixed top-0 left-0 w-full z-10"
+					class="bg-[#129C52] p-4 flex items-center justify-between fixed top-0 left-0 w-full z-10 bg-opacity-100 max-h-[7vh]"
 				>
 					<router-link to="/home">
 						<svg
@@ -61,19 +61,15 @@
 				<div
 					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="w-[70vw] h-[70vw] max-w-[400px] max-h-[300px]"
-						viewBox="0 0 512 512"
-					>
-						<path
-							fill="none"
-							stroke="#fff"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="20"
-							d="M336 448h56a56 56 0 0 0 56-56v-56m0-160v-56a56 56 0 0 0-56-56h-56M176 448h-56a56 56 0 0 1-56-56v-56m0-160v-56a56 56 0 0 1 56-56h56"
-						/>
+					<svg width="400px" height="400px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0.36" transform="rotate(0)">
+						<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+						<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.048"></g>
+						<g id="SVGRepo_iconCarrier"> 
+							<path d="M18.5 15V18.5H15" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"></path> 
+							<path d="M9.00003 18.5H5.50003V15" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"></path> 
+							<path d="M15 5.49997L18.4958 5.49997V8.99997" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"></path> 
+							<path d="M9.00003 5.49997H5.50003V8.99997" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"></path> 
+						</g>
 					</svg>
 				</div>
 			</Transition>
@@ -87,7 +83,7 @@
 				muted
 				class="hidden"
 			></video>
-			<canvas ref="canvas" class="bg-black w-full h-[100dvh]"></canvas>
+			<canvas ref="canvas" class="bg-black w-full pt-[7vh] h-[74.1vh]"></canvas>
 
 			<!-- Photo Preview Modal -->
 			<Transition name="fade" appear>
@@ -101,7 +97,7 @@
 						<img
 							:src="previewPhoto"
 							alt="Предпросмотр"
-							class="w-full max-w-[80vw] max-h-[60vh] object-contain rounded-lg"
+							class="w-full max-w-[80vw] max-h-[60vh] object-cover rounded-lg"
 						/>
 						<div class="flex gap-4 mt-4 justify-center">
 							<button
@@ -272,7 +268,7 @@
 			<!-- Mode Switcher -->
 			<Transition name="fade-slide" appear>
 				<div
-					class="fixed bottom-[100px] left-1/2 -translate-x-1/2 flex gap-3 text-[1.5vh] z-10"
+					class="fixed bottom-[160px] left-1/2 -translate-x-1/2 flex gap-3 text-[1.5vh] z-10"
 				>
 					<button
 						@click="is_diagnostic = false"
@@ -300,7 +296,7 @@
 			<!-- Bottom Control Bar -->
 			<Transition name="fade-slide" appear>
 				<div
-					class="fixed bottom-0 left-0 w-full h-[80px] bg-[#129C52] flex justify-between items-center px-8 z-10"
+					class="fixed bottom-0 left-0 w-full h-[17.6vh] bg-[#129C52] flex justify-between items-center px-8 z-10"
 				>
 					<button @click="openGallery" class="transition-all duration-300">
 						<svg
@@ -326,8 +322,8 @@
 					<button @click="takePhoto" class="transition-all duration-300">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							width="60"
-							height="60"
+							width="100"
+							height="100"
 							viewBox="0 0 32 32"
 						>
 							<circle

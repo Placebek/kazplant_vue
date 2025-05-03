@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
+  <div class=" bg-gray-100">
     <!-- Заголовок -->
-    <div class="min-w-[100vw] bg-[#129C52] p-4 text-xl text-white text-center">
+    <div class="min-w-[100vw] bg-[#129C52] p-4 text-xl text-white">
       AI помощник
     </div>
 
     <!-- Контент -->
-    <div class="p-5 flex flex-col h-[calc(100vh-120px)]">
+    <div class="p-5 flex flex-col h-[]">
       <!-- Начальное состояние -->
       <div
         v-if="countMessages === 0 && !plantsStore.loading"
@@ -59,7 +59,7 @@
             {{ plant.name }}
           </option>
         </select>
-        <div class="flex gap-2">
+        <div class="flex gap-2  bottom-[70px] left-0 right-0 mx-auto p-4 sticky">
           <input
             v-model="question"
             type="text"
